@@ -1,0 +1,1 @@
+GET {{host}}/api/dictionary/search?lenguage=en-gb&wordId=get

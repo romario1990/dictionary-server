@@ -1,0 +1,101 @@
+responses:
+  Word definition:
+    type: object
+    properties:
+      id:
+        type: string
+        example: cheese
+      metadata:
+        properties:
+          operation:
+            type: string
+            example: retrieve
+          provider:
+            type: string
+            example: Oxford University Press
+          schema:
+            type: string
+            example: RetrieveEntry
+      results:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              example: cheese
+            language:
+              type: string
+              example: en-gb
+            lexicalEntries:
+              type: array
+              items:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        senses:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              definitions:
+                                type: array
+                                items:
+                                  type: string
+                              examples:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    text:
+                                      type: string
+                              id:
+                                type: string
+                                example: m_en_gbus0342860.007
+                              subsenses:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    definitions:
+                                      type: array
+                                      items:
+                                        type: string
+                                    examples:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          text:
+                                            type: string
+                                    id:
+                                      type: string
+                                      example: m_en_gbus0342860.007
+                  language:
+                    type: string
+                    example: en-gb
+                  lexicalCategory:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: noun
+                      text:
+                        type: string
+                        example: Noun
+                  text:
+                    type: string
+                    example: cheese
+            type:
+              type: string
+              example: headword
+            word:
+              type: string
+              example: cheese
+      word:
+        type: string
+        example: cheese

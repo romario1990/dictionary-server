@@ -1,0 +1,29 @@
+'/dictionary/search':
+  get:
+    tags:
+      - Dictionary
+    summary: Search word in dictionary
+    parameters:
+      - in: query
+        name: lenguage
+        type: string
+        description: Search language
+        example: en-gb
+        enum: [en-gb]
+        required: true
+      - in: query
+        name: wordId
+        type: string
+        description: Search word
+        example: cheese
+        enum: [eat, cake]
+        required: true
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: OK
+        schema:
+            $ref: '#/responses/Word definition'
+      '404':
+        description: Not Found
