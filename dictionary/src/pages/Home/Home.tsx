@@ -1,35 +1,59 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { CardError } from "../../components/CardError";
 import { CardWord } from "../../components/CardWord";
 import { OxfordProvider } from "../../services";
-import { OxfordDictionaryProps } from "./HomeProps";
+import { lexicalEntriesProps } from "./HomeProps";
+import { initialState, reducer } from "./reducer";
 
 const Home: React.FC = () => {
-  const [word, setWord] = useState("");
-  const [definitions, setDefinitions] = useState<OxfordDictionaryProps>();
-  const [error, setError] = useState<string>();
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { word, error, definitions, loading } = state;
 
   const searchWord = useCallback(() => {
     if (word) {
+      dispatch({
+        type: "TOGGLE_LOADING",
+      });
       OxfordProvider.getDefinitionsWord("en-gb", word)
         .then((data) => {
           if (data.error) {
-            setError(data.error);
+            dispatch({
+              type: "SET_ERROR",
+              payload: {
+                data: {
+                  error: data.error,
+                },
+              },
+            });
           } else {
-            setError(undefined);
-            setDefinitions(data);
+            dispatch({
+              type: "SET_DEFINITIONS",
+              payload: {
+                data: {
+                  definitions: data,
+                },
+              },
+            });
           }
         })
         .catch((err) => {
-          setDefinitions(undefined);
+          dispatch({
+            type: "SET_ERROR",
+            payload: {
+              data: {
+                error: "Connection error",
+              },
+            },
+          });
         });
     }
   }, [word]);
 
   useEffect(() => {
     return () => {
-      setDefinitions(undefined);
-      setError(undefined);
+      dispatch({
+        type: "SET_INITIAL_DATA",
+      });
     };
   }, []);
 
@@ -38,25 +62,40 @@ const Home: React.FC = () => {
       <>
         <input
           className="inputword"
-          onChange={(e) => setWord(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: "SET_WORD",
+              payload: {
+                data: {
+                  word: e.target.value,
+                },
+              },
+            })
+          }
         />
         <br />
         <button className="btn" onClick={searchWord}>
           Search
         </button>
-        {error ? (
-          <CardError error={error} />
+        {loading ? (
+          <div className="loader"></div>
         ) : (
           <>
-            {definitions && (
+            {error ? (
+              <CardError error={error} />
+            ) : (
               <>
-                <h3>Word - {definitions?.word}</h3>
-                {definitions.results?.length > 0 &&
-                  definitions.results[0].lexicalEntries.map(
-                    (exicalEntry, index) => (
-                      <CardWord exicalEntry={exicalEntry} index={index} />
-                    )
-                  )}
+                {definitions && (
+                  <>
+                    <h3>Word - {definitions?.word}</h3>
+                    {definitions.results?.length > 0 &&
+                      definitions.results[0].lexicalEntries.map(
+                        (exicalEntry: lexicalEntriesProps, index: number) => (
+                          <CardWord exicalEntry={exicalEntry} index={index} />
+                        )
+                      )}
+                  </>
+                )}
               </>
             )}
           </>
