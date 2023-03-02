@@ -9,4 +9,5 @@ export default {
   OXFORD_APP_ID: process.env.OXFORD_APP_ID ?? "",
   OXFORD_APP_KEY: process.env.OXFORD_APP_KEY ?? "",
   OXFORD_APP_PATH_VERSION: process.env.OXFORD_APP_PATH_VERSION,
+  EX_TIME_REDIS: Number(process.env.EX_TIME_REDIS || 604800)
 };

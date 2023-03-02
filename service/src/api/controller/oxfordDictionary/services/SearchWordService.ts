@@ -4,6 +4,7 @@ import { ISearchWordServiceProps } from "../interfaces/services";
 import { getSearchWordOxford } from "../../../../provider/oxford";
 import { validateIsMissingAllParams } from "../../../core/validate/validateIsMissingAllParams";
 import { validateStringParam } from "../../../core/validate/validateStringParam";
+import { setCache } from "../../../infra";
 
 export class SearchWordService extends Service<
   ISearchWordServiceProps.Request,
@@ -37,6 +38,7 @@ export class SearchWordService extends Service<
         fields,
         strictMatch
       );
+      setCache(wordId, data)
       return data;
     }
   }
