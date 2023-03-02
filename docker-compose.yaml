@@ -1,0 +1,29 @@
+version: "3"
+services:
+  web:
+    container_name: web-container
+    restart: always
+    image: "front"
+    depends_on:
+      - server
+    ports: 
+    - "3000:3000"
+    links: 
+      - server
+  server:
+    container_name: server-container
+    restart: always
+    image: "server"
+    depends_on:
+      - redis
+    ports: 
+    - "5000:5000"
+    links: 
+      - redis
+  redis:
+    container_name: redis-container
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data:/data
