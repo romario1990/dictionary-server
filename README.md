@@ -17,7 +17,7 @@
 ### Project architecture
 
 <p align="center">
-  <img src="https://app.diagrams.net/#G12Ms2Uq-KppcjZ_Olrz0HchNZJw7hEzW7" />
+  <img src="./arc-oxf.drawio.png" />
 </p>
 
 ### Built With
