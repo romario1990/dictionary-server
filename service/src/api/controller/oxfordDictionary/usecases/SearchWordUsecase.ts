@@ -2,7 +2,7 @@ import { IUsecase } from "../../../core/interfaces";
 import { ISearchWordRepository } from "../interfaces/repositories";
 import { ISearchWordUseCase } from "../interfaces/useCases";
 
-export class SearchWordRouterUsecase
+export class SearchWordUsecase
   implements IUsecase<ISearchWordUseCase.payload, ISearchWordUseCase.Response>
 {
   constructor(

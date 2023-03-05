@@ -1,16 +1,18 @@
 import { Service } from "../../../core/Service";
-import { ISearchWordUseCase } from "../interfaces/useCases";
+import { ISaveWordUseCase, ISearchWordUseCase } from "../interfaces/useCases";
 import { ISearchWordServiceProps } from "../interfaces/services";
 import { getSearchWordOxford } from "../../../../provider/oxford";
 import { validateIsMissingAllParams } from "../../../core/validate/validateIsMissingAllParams";
 import { validateStringParam } from "../../../core/validate/validateStringParam";
-import { setCache } from "../../../infra";
 
 export class SearchWordService extends Service<
   ISearchWordServiceProps.Request,
   ISearchWordServiceProps.Response
 > {
-  constructor(private readonly searchWordUseCase: ISearchWordUseCase) {
+  constructor(
+    private readonly searchWordUseCase: ISearchWordUseCase,
+    private readonly saveWordUseCase: ISaveWordUseCase
+  ) {
     super();
   }
 
@@ -38,7 +40,7 @@ export class SearchWordService extends Service<
         fields,
         strictMatch
       );
-      setCache(wordId, data)
+      await this.saveWordUseCase.handle(data)
       return data;
     }
   }

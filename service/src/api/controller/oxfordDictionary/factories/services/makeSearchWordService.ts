@@ -1,6 +1,6 @@
 import { IFactory } from "../../../../core/interfaces";
 import { SearchWordService } from "../../services";
-import { SearchWordRouterUsecase } from "../../usecases";
+import { SaveWordUsecase, SearchWordUsecase } from "../../usecases";
 import { makePgOxfordDictionaryRepository } from "../repositories";
 
 export const makeSearchWordService: IFactory<SearchWordService> = (
@@ -9,8 +9,7 @@ export const makeSearchWordService: IFactory<SearchWordService> = (
   const pgOxfordDictionaryRepository = makePgOxfordDictionaryRepository(
     ...args
   );
-  const searchWordRouterUsecase = new SearchWordRouterUsecase(
-    pgOxfordDictionaryRepository
-  );
-  return new SearchWordService(searchWordRouterUsecase);
+  const searchWordUsecase = new SearchWordUsecase(pgOxfordDictionaryRepository);
+  const saveWordUsecase = new SaveWordUsecase(pgOxfordDictionaryRepository);
+  return new SearchWordService(searchWordUsecase, saveWordUsecase);
 };
